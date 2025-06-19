@@ -1,0 +1,21 @@
+# .github/workflows/run.yml
+name: Sipariş scriptini çalıştır
+
+on:
+  workflow_dispatch:        # Sadece “Run workflow” düğmesi veya API çağrısıyla tetiklenir
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: browser-actions/setup-chrome@v1   # Headless Chrome
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install -r requirements.txt     # Gerekli Python paketleri
+      - run: python dosya.py                     # Senin ana script dosyan
