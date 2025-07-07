@@ -3,13 +3,12 @@ import pandas as pd
 from io import BytesIO
 from colorama import init, Fore, Style
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo          # Türkiye saat dilimi için eklendi
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import time
-import datetime
-import colorama
 from copy import copy
 from openpyxl.worksheet.table import Table, TableStyleInfo
 
@@ -41,7 +40,9 @@ try:
     driver.get(desired_page_url)
     time.sleep(2)
 
-    yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+    turkey_tz = ZoneInfo("Europe/Istanbul")           # Türkiye saat dilimi
+    now_tr = datetime.now(turkey_tz)
+    yesterday = now_tr - timedelta(days=1)
     formatted_date_no_leading = f"{yesterday.day}.{yesterday.month}.{yesterday.year}"
 
     end_date_input = driver.find_element(By.ID, "EndDate")
@@ -58,8 +59,8 @@ try:
     time.sleep(10)
 
 except Exception as e:
-    print(colorama.Fore.RED + f"Giriş veya tarih ayarı sırasında hata: {e}" + colorama.Style.RESET_ALL)
-    raise  # Hata sonrası kodun tamamen durması için hatayı tekrar fırlatıyoruz
+    print(Fore.RED + f"Giriş veya tarih ayarı sırasında hata: {e}" + Style.RESET_ALL)
+    raise
 
 finally:
     driver.quit()
