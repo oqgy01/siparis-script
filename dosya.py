@@ -42,8 +42,9 @@ try:
 
     turkey_tz = ZoneInfo("Europe/Istanbul")           # Türkiye saat dilimi
     now_tr = datetime.now(turkey_tz)
-    yesterday = now_tr - timedelta(days=1)
-    formatted_date_no_leading = f"{yesterday.day}.{yesterday.month}.{yesterday.year}"
+    
+    # Bugünün tarihini formatla (önceki kodda yesterday kullanılıyordu)
+    formatted_date_no_leading = f"{now_tr.day}.{now_tr.month}.{now_tr.year}"
 
     end_date_input = driver.find_element(By.ID, "EndDate")
     end_date_input.clear()
